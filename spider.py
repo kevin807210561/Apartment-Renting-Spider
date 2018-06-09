@@ -1,4 +1,5 @@
 import time
+from configparser import ConfigParser
 import requests
 from bs4 import BeautifulSoup
 from models.Topic import Topic
@@ -9,6 +10,21 @@ from tools.updates2html import updates2html
 
 def build_url(department, start):
     return 'https://www.douban.com/group/search?start=' + str(start) + '&cat=1013&sort=time&q=' + department
+
+
+def get_url(url):
+    # 此处需在项目根目录下的config.ini中配置相关账户信息
+    cf = ConfigParser()
+    cf.read('config.ini')
+    cookie = cf.items('douban_cookie')
+    cookie = dict(cookie)
+
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36',
+        'Host': 'www.douban.com',
+        'Referer': 'http://www.douban.com/'
+    }
+    return requests.get(url=url, headers=headers, cookies=cookie)
 
 
 def analyse_department_page(page):
@@ -32,21 +48,21 @@ def get_department_topics(department):
     last_pulled_at = department.last_pulled_at
 
     if last_pulled_at is None:
-        page = requests.get(build_url(department.name, 0)).content
+        page = get_url(build_url(department.name, 0)).content
         res = analyse_department_page(page)
     else:
         start = 0
-        topics = analyse_department_page(requests.get(build_url(department.name, start)).content)
+        topics = analyse_department_page(get_url(build_url(department.name, start)).content)
         while len(topics) > 0 and topics[-1].posted_at > last_pulled_at:
             res += topics
             start += 50
-            topics = analyse_department_page(requests.get(build_url(department.name, start)).content)
+            topics = analyse_department_page(get_url(build_url(department.name, start)).content)
         res += topics
-        #删除掉末尾的已经获取过的topics
+        # 删除掉末尾的已经获取过的topics
         while len(res) > 0 and res[-1].posted_at <= last_pulled_at:
             res.pop()
 
-    #更新最近获取时间
+    # 更新最近获取时间
     if len(res) > 0:
         department.last_pulled_at = res[0].posted_at
 
@@ -74,5 +90,5 @@ if __name__ == '__main__':
             send_email('151250094@smail.nju.edu.cn', updates2html(updates))
             print('Finish sending...')
             print('Time: ' + time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()))
-        save_departments(departments)
-        time.sleep(60 * 5)
+            save_departments(departments)
+        time.sleep(60 * 10)

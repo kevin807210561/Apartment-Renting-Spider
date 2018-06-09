@@ -12,5 +12,5 @@ def get_departments():
 def save_departments(departments):
     with codecs.open('departments/departments.txt', 'w', 'utf-8') as f:
         for department in departments:
-            line = department.name + '::' + department.last_pulled_at + '\n'
+            line = department.name + (('::' + department.last_pulled_at) if department.last_pulled_at is not None else '') + '\n'
             f.write(line)
