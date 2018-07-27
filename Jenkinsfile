@@ -20,7 +20,7 @@ pipeline {
     }
     stage('test') {
       steps {
-        retry(count: 5)
+        sh 'echo $B'
       }
     }
   }
