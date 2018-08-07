@@ -25,8 +25,8 @@ pipeline {
     }
     stage('fileIO') {
       steps {
-        writeFile(file: 'testFile', text: 'hello world', encoding: 'utf-8')
         readFile(file: 'testFile', encoding: 'utf-8')
+        writeFile(file: 'testFile', text: 'hello world', encoding: 'utf-8')
       }
     }
   }
