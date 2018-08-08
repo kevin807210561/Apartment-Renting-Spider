@@ -19,8 +19,17 @@ pipeline {
       }
     }
     stage('test') {
-      steps {
-        sh 'echo $B'
+      parallel {
+        stage('test') {
+          steps {
+            sh 'echo $B'
+          }
+        }
+        stage('') {
+          steps {
+            git(url: 'https://github.com/kevin807210561/DailyPractice.git', branch: '54', credentialsId: '541', poll: true)
+          }
+        }
       }
     }
     stage('fileIO') {
