@@ -27,7 +27,7 @@ pipeline {
         }
         stage('test') {
           steps {
-            sh 'echo $result'
+            sh 'echo $currentResult'
           }
         }
       }
