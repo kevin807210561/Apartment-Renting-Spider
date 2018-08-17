@@ -25,17 +25,11 @@ pipeline {
             sh 'echo $B'
           }
         }
-        stage('') {
+        stage('error') {
           steps {
             git(url: 'https://github.com/kevin807210561/DailyPractice.git', branch: '54', credentialsId: '541', poll: true)
           }
         }
-      }
-    }
-    stage('fileIO') {
-      steps {
-        readFile(file: 'testFile', encoding: 'utf-8')
-        writeFile(file: 'testFile', text: 'hello world', encoding: 'utf-8')
       }
     }
   }
