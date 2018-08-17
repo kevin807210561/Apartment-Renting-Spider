@@ -18,18 +18,9 @@ pipeline {
         }
       }
     }
-    stage('error') {
-      parallel {
-        stage('error') {
-          steps {
-            git(url: 'https://github.com/kevin807210561/DailyPractice.git', branch: '54', credentialsId: '541', poll: true)
-          }
-        }
-        stage('echo current build params') {
-          steps {
-            echo '$result'
-          }
-        }
+    stage('echo current build params') {
+      steps {
+        echo '${result}'
       }
     }
   }
