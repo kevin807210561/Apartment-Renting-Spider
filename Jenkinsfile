@@ -20,7 +20,7 @@ pipeline {
     }
     stage('echo current build params') {
       steps {
-        echo '${result}'
+        echo '${currentBuild.result}'
       }
     }
   }
