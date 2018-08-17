@@ -27,8 +27,8 @@ pipeline {
         }
         stage('test') {
           steps {
-            sh '''echo ${currentBuild.currentResult}
-echo ${B}'''
+            sh '''echo $currentBuild.currentResult
+echo $B'''
           }
         }
       }
