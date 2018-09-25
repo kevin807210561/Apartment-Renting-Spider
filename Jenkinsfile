@@ -24,8 +24,17 @@ pipeline {
       }
     }
     stage('write file') {
-      steps {
-        writeFile(file: 'test.txt', text: 'hello')
+      parallel {
+        stage('write file') {
+          steps {
+            writeFile(file: 'test.txt', text: 'hello')
+          }
+        }
+        stage('pwd') {
+          steps {
+            pwd()
+          }
+        }
       }
     }
   }
