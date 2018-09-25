@@ -19,18 +19,8 @@ pipeline {
       }
     }
     stage('echo current build params') {
-      parallel {
-        stage('echo current build params') {
-          steps {
-            echo '${currentBuild.result}'
-          }
-        }
-        stage('test') {
-          steps {
-            sh '''echo "${currentBuild.currentResult}"
-echo $B'''
-          }
-        }
+      steps {
+        echo '${currentBuild.result}'
       }
     }
     stage('write file') {
