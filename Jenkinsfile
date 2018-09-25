@@ -33,6 +33,11 @@ echo $B'''
         }
       }
     }
+    stage('write file') {
+      steps {
+        writeFile(file: 'test.txt', text: 'hello')
+      }
+    }
   }
   environment {
     B = '2'
