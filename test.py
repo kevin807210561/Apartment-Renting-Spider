@@ -34,4 +34,3 @@ print(get_department_topics(Department('白金海岸', '2018-06-05 19:18:53')))
 res = spider(get_departments())
 print(updates2html(res))
 print(os.path.abspath('.') + '\config.ini')
-
