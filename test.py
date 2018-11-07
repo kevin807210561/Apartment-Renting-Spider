@@ -1,7 +1,7 @@
 import os 
 from configparser import ConfigParser
 
-import requests
+import requests 
 from bs4 import BeautifulSoup
 
 from spider import build_url, analyse_department_page, get_department_topics, spider, get_url
